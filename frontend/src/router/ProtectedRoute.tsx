@@ -10,9 +10,9 @@ function ProtectedRoute({
   element: React.ReactElement
   anyAuthorityOf?: authorities[]
 }) {
-  const { data: activeUser, isFetched, isFetching } = useActiveUserContext()
+  const { data: activeUser, isPending } = useActiveUserContext()
 
-  if (isFetching && !isFetched) {
+  if (isPending) {
     return
   }
 

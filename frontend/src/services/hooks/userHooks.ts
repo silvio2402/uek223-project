@@ -10,12 +10,12 @@ import {
 import { queryClient } from "./queryClient"
 
 export function useUserQuery(
-  userID: string,
+  userId: string,
   options?: Partial<Parameters<typeof useQuery<User>>[0]>
 ) {
   return useQuery<User>({
-    queryKey: ["users", userID],
-    queryFn: () => getUser(userID),
+    queryKey: ["users", userId],
+    queryFn: () => getUser(userId),
     ...options,
   })
 }
