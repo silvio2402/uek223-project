@@ -10,7 +10,8 @@
 			"extensions": [
 				"esbenp.prettier-vscode",
 				"vmware.vscode-boot-dev-pack",
-				"oven.bun-vscode"
+				"oven.bun-vscode",
+				"eamodio.gitlens"
 			]
 		}
 	}
