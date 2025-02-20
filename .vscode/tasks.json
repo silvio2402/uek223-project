@@ -10,7 +10,7 @@
         {
           "pattern": [
             {
-              "regexp": ".",
+              "regexp": "(?!)",
               "file": 1,
               "location": 2,
               "message": 3
