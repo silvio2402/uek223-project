@@ -10,8 +10,8 @@ public class UserPermissionEvaluator {
   public UserPermissionEvaluator() {
   }
 
-  public boolean isUserAboveAge(User principal, int age) {
-    return true;
+  public boolean isOwnUser(User principal, User user) {
+    return user.getId() == principal.getId();
   }
 
 }

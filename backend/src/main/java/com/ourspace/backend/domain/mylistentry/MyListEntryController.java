@@ -3,7 +3,9 @@ package com.ourspace.backend.domain.mylistentry;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ public class MyListEntryController {
 
   private final MyListEntryService mylistentryService;
 
+  @Autowired
   public MyListEntryController(MyListEntryService mylistentryService) {
     this.mylistentryService = mylistentryService;
   }
@@ -42,18 +45,21 @@ public class MyListEntryController {
   }
 
   @PostMapping({ "", "/" })
+  @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
   public ResponseEntity<MyListEntry> create(@Valid @RequestBody MyListEntry myListEntry, User user) {
     MyListEntry createdMyListEntry = mylistentryService.create(myListEntry, user);
     return ResponseEntity.ok(createdMyListEntry);
   }
 
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
   public ResponseEntity<MyListEntry> update(@PathVariable UUID id, @Valid @RequestBody MyListEntry myListEntry) {
     MyListEntry updatedMyListEntry = mylistentryService.updateById(id, myListEntry);
     return ResponseEntity.ok(updatedMyListEntry);
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('MYLISTENTRY_DELETE_ALL') || hasAuthority('MYLISTENTRY_DELETE_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
   public ResponseEntity<Void> delete(@PathVariable UUID id) {
     mylistentryService.deleteById(id);
     return ResponseEntity.noContent().build();

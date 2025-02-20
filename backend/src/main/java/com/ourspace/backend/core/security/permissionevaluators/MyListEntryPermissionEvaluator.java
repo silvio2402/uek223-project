@@ -12,7 +12,7 @@ public class MyListEntryPermissionEvaluator {
   public MyListEntryPermissionEvaluator() {
   }
 
-  public boolean ownsEntry(User principal, UUID uuid, MyListEntryService service) {
+  public boolean isOwnEntry(User principal, UUID uuid, MyListEntryService service) {
     return service.findById(uuid).getUser().getId() == principal.getId();
   }
 }
