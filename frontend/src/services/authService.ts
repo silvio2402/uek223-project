@@ -29,6 +29,10 @@ export function getAccessToken() {
   return authCookies.get<string>("accessToken")
 }
 
+export function getRefreshToken() {
+  return authCookies.get<string>("refreshToken")
+}
+
 export async function loginAuth(authRequest: AuthRequest): Promise<void> {
   const { data: authResponse } = await api.post<AuthResponse>(
     "/auth/authenticate",
@@ -40,16 +44,10 @@ export async function loginAuth(authRequest: AuthRequest): Promise<void> {
 
 export async function refreshAuth(): Promise<void> {
   const refreshToken = authCookies.get<string>("refreshToken")
-  if (!refreshToken) {
+  if (refreshToken === undefined) {
     throw new RefreshTokenNotFoundException()
   }
-  const { data: authResponse } = await api.post<AuthResponse>(
-    "/auth/refresh",
-    null,
-    {
-      headers: { Authorization: `Bearer ${refreshToken}` },
-    }
-  )
+  const { data: authResponse } = await api.post<AuthResponse>("/auth/refresh")
 
   setAuthCookies(authResponse)
 }

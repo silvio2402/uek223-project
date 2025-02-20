@@ -10,3 +10,14 @@ export function useAccessToken() {
 
   return cookies.accessToken
 }
+
+export function useRefreshToken() {
+  const [cookies] = useCookies<
+    "refreshToken",
+    {
+      refreshToken?: string
+    }
+  >(["refreshToken"])
+
+  return cookies.refreshToken
+}

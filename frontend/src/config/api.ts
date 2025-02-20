@@ -1,5 +1,9 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios"
-import { getAccessToken, refreshAuth } from "../services/authService"
+import {
+  getAccessToken,
+  getRefreshToken,
+  refreshAuth,
+} from "../services/authService"
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -8,8 +12,10 @@ const api: AxiosInstance = axios.create({
 // Set the Authorization header for each request
 api.interceptors.request.use(
   async (request) => {
-    const token = getAccessToken()
+    const token =
+      request.url === "/auth/refresh" ? getRefreshToken() : getAccessToken()
     request.headers.Authorization = token ? `Bearer ${token}` : undefined
+
     return request
   },
   (error) => {
@@ -26,7 +32,8 @@ api.interceptors.response.use(
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean
     }
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const status = error.response?.status
+    if ((status === 401 || status === 403) && !originalRequest._retry) {
       originalRequest._retry = true
       await refreshAuth()
       return api(originalRequest)

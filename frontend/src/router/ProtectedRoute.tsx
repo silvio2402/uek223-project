@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom"
 import authorities from "../config/authorities"
+import { useActiveUserContext } from "../contexts/activeUser"
 import { userHasAnyAuthority } from "../services/authorityService"
-import { useActiveUserQuery } from "../services/hooks/userHooks"
 
 function ProtectedRoute({
   element,
@@ -10,9 +10,9 @@ function ProtectedRoute({
   element: React.ReactElement
   anyAuthorityOf?: authorities[]
 }) {
-  const { data: activeUser, isFetched } = useActiveUserQuery()
+  const { data: activeUser, isFetched, isFetching } = useActiveUserContext()
 
-  if (!isFetched) {
+  if (isFetching && !isFetched) {
     return
   }
 

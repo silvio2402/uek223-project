@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { jwtDecode } from "jwt-decode"
 import { User } from "../../types/models/User.model"
 import {
   addUser,
@@ -8,19 +7,7 @@ import {
   getUser,
   updateUser,
 } from "../userService"
-import { useAccessToken } from "./authHooks"
 import { queryClient } from "./queryClient"
-
-export function useActiveUserQuery(
-  options?: Partial<Parameters<typeof useQuery<User>>[0]>
-) {
-  const accessToken = useAccessToken()
-  const userId = accessToken ? jwtDecode(accessToken).sub : undefined
-  return useUserQuery(userId ?? "", {
-    enabled: userId !== undefined,
-    ...options,
-  })
-}
 
 export function useUserQuery(
   userID: string,
