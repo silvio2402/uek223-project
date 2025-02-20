@@ -62,14 +62,14 @@ public class UserController {
   }
 
   @PutMapping("/{id}")
-  @PreAuthorize("hasAuthority('USER_MODIFY_ALL') ||hasAuthority('USER_MODIFY_OWN') && @userPermissionEvaluator.isOwnUser(principal, #user)")
+  @PreAuthorize("hasAuthority('USER_MODIFY_ALL')")
   public ResponseEntity<UserDTO> updateById(@PathVariable UUID id, @Valid @RequestBody UserDTO userDTO) {
     User user = userService.updateById(id, userMapper.fromDTO(userDTO));
     return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
-  @PreAuthorize("hasAuthority('USER_DELETE_ALL') ||hasAuthority('USER_DELETE_OWN') && @userPermissionEvaluator.isOwnUser(principal, #user)")
+  @PreAuthorize("hasAuthority('USER_DELETE_ALL')")
   public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
     userService.deleteById(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
