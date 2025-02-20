@@ -22,5 +22,4 @@
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
     "prettier.semi": false,
-    "debug.onTaskErrors": "debugAnyway"
 }

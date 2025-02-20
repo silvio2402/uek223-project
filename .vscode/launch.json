@@ -6,8 +6,7 @@
     "configurations": [
         {
             "type": "firefox",
-            "name": "Frontend",
-            "preLaunchTask": "bun dev frontend",
+            "name": "Debug Frontend in Firefox",
             "request": "launch",
             "skipFiles": [
                 "${workspaceFolder}/node_modules/**/*"
