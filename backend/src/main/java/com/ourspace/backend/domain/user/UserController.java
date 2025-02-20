@@ -1,11 +1,8 @@
 package com.ourspace.backend.domain.user;
 
-import com.ourspace.backend.domain.user.dto.UserDTO;
-import com.ourspace.backend.domain.user.dto.UserMapper;
-import com.ourspace.backend.domain.user.dto.UserRegisterDTO;
 import java.util.List;
 import java.util.UUID;
-import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +16,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ourspace.backend.domain.user.dto.UserDTO;
+import com.ourspace.backend.domain.user.dto.UserMapper;
+import com.ourspace.backend.domain.user.dto.UserRegisterDTO;
+
+import jakarta.validation.Valid;
 
 @Validated
 @RestController

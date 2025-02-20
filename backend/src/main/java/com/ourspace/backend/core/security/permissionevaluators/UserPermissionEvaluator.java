@@ -1,7 +1,8 @@
 package com.ourspace.backend.core.security.permissionevaluators;
 
-import com.ourspace.backend.domain.user.User;
 import org.springframework.stereotype.Component;
+
+import com.ourspace.backend.domain.user.User;
 
 @Component
 public class UserPermissionEvaluator {

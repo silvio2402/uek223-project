@@ -1,10 +1,12 @@
 package com.ourspace.backend.domain.user;
 
-import com.ourspace.backend.core.generic.AbstractEntity;
-import com.ourspace.backend.domain.role.Role;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import com.ourspace.backend.core.generic.AbstractEntity;
+import com.ourspace.backend.domain.role.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
