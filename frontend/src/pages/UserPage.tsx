@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import UserForm from "../../components/UserForm"
-import { addUser, getUser, updateUser } from "../../services/userService"
-import { User } from "../../types/models/User.model"
+import UserForm from "../components/UserForm"
+import { addUser, getUser, updateUser } from "../services/userService"
+import { User } from "../types/models/User.model"
 
 const UserPage = () => {
   const navigate = useNavigate()

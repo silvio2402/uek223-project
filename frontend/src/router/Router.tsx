@@ -1,19 +1,12 @@
 import { Route, Routes } from "react-router-dom"
+import UserTable from "../components/UserTable"
 import authorities from "../config/authorities"
 import HomePage from "../pages/HomePage"
-import LoginPage from "../pages/LoginPage/LoginPage"
-import UserPage from "../pages/UserPage/UserPage"
-import UserTable from "../pages/UserPage/UserTable"
-import PrivateRoute from "./PrivateRoute"
+import LoginPage from "../pages/LoginPage"
+import UserPage from "../pages/UserPage"
+import ProtectedRoute from "./ProtectedRoute"
 
-/**
- * Router component renders a route switch with all available pages
- */
 function Router() {
-  //const { checkRole } = useContext(ActiveUserContext);
-
-  /** navigate to different "home"-locations depending on Role the user have */
-
   return (
     <Routes>
       <Route path={"/"} element={<HomePage />} />
@@ -21,27 +14,27 @@ function Router() {
 
       <Route
         path={"/users"}
-        element={<PrivateRoute requiredAuths={[]} element={<UserTable />} />}
+        element={<ProtectedRoute element={<UserTable />} />}
       />
       <Route
         path="/useredit"
         element={
-          <PrivateRoute
-            requiredAuths={[
+          <ProtectedRoute
+            anyAuthorityOf={[
               authorities.USER_DEACTIVATE,
               authorities.USER_CREATE,
             ]}
             element={<UserPage />}
-          ></PrivateRoute>
+          />
         }
       />
       <Route
         path="/useredit/:userId"
         element={
-          <PrivateRoute
-            requiredAuths={[authorities.USER_READ]}
+          <ProtectedRoute
+            anyAuthorityOf={[authorities.USER_READ]}
             element={<UserPage />}
-          ></PrivateRoute>
+          />
         }
       />
 

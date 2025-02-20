@@ -3,14 +3,14 @@ import { Button, Grid, Link, Paper, TextField, Typography } from "@mui/material"
 import { Form, Formik } from "formik"
 import { useNavigate } from "react-router-dom"
 import * as Yup from "yup"
-import { useActiveUser } from "../../../contexts/activeUserContext"
+import { loginAuth } from "../services/authService"
 
 const validationSchema = Yup.object().shape({
   email: Yup.string(),
   password: Yup.string(),
 })
 
-const Login = () => {
+function Login() {
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -19,27 +19,15 @@ const Login = () => {
   }
   const btnstyle = { margin: "8px 0" }
   const navigate = useNavigate()
-  const { login } = useActiveUser()
 
-  const handleSubmit = (values: { email: string; password: string }) => {
-    login(values.email.toLowerCase(), values.password)
-      .then(() => {
-        console.log(values)
-
-        navigate("/")
-      })
-      .catch((error) => {
-        if (
-          (typeof error.response !== "undefined" &&
-            error.response.status === 401) ||
-          error.response.status === 403
-        ) {
-          alert("invalid login")
-        } else {
-          alert("login Error")
-        }
-      })
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    await loginAuth({
+      email: values.email.toLowerCase(),
+      password: values.password,
+    })
+    navigate("/")
   }
+
   return (
     <Grid>
       <Paper elevation={10} style={paperStyle}>

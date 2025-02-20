@@ -1,44 +1,16 @@
 import authorities from "../config/authorities"
-import { Authority } from "../types/models/Authority.model"
-import { Role } from "../types/models/Role.model"
+import { User } from "../types/models/User.model"
 
-const authoritySet = new Set<authorities>()
-
-export async function initAuthoritySet(
-  user = JSON.parse(localStorage.getItem("user") || "{}")
-) {
-  const roles = user && user.roles ? user.roles : []
-  roles.forEach((role: Role) => {
-    role.authorities.forEach((authority: Authority) => {
-      authoritySet.add(authority.name)
-    })
-  })
+export function getUserAuthorities(user: User): Set<authorities> {
+  return new Set(
+    user.roles.flatMap((role) => role.authorities.map((a) => a.name))
+  )
 }
 
-export async function hasAuthority(authority: authorities) {
-  await initAuthoritySet()
-  return authoritySet.has(authority)
-}
-
-export async function hasAuthorities(authorities: authorities[]) {
-  await initAuthoritySet()
-  for (const element of authorities) {
-    if (!authoritySet.has(element)) {
-      return false
-    }
-  }
-  return true
-}
-
-export async function hasAnyAuthority(authorities: authorities[]) {
-  for (const element of authorities) {
-    if (authoritySet.has(element)) {
-      return true
-    }
-  }
-  return false
-}
-
-export function clearAuthorities(): void {
-  authoritySet.clear()
+export function userHasAnyAuthority(
+  user: User,
+  authorities: authorities[]
+): boolean {
+  const userAuthorities = getUserAuthorities(user)
+  return authorities.some((authority) => userAuthorities.has(authority))
 }

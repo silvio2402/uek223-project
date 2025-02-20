@@ -4,8 +4,8 @@ import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { deleteUser, getAllUsers } from "../../../services/userService"
-import { User } from "../../../types/models/User.model"
+import { deleteUser, getAllUsers } from "../services/userService"
+import { User } from "../types/models/User.model"
 
 function UserTable() {
   const navigate = useNavigate()

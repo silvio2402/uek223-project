@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom"
 import { object, string } from "yup"
 import { User } from "../types/models/User.model"
 
-interface UserProps {
+interface UserFormProps {
   user: User
   submitActionHandler: (values: User) => void
 }
 
-const UserForm = ({ user, submitActionHandler }: UserProps) => {
+function UserForm({ user, submitActionHandler }: UserFormProps) {
   const navigate = useNavigate()
 
   const formik = useFormik({
