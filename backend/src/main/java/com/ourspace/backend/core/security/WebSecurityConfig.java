@@ -1,7 +1,7 @@
 package com.ourspace.backend.core.security;
 
-import com.ourspace.backend.core.security.helpers.JwtProperties;
-import com.ourspace.backend.domain.user.UserService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +15,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import com.ourspace.backend.core.security.helpers.JwtUtil;
+import com.ourspace.backend.domain.user.UserService;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -28,25 +28,25 @@ public class WebSecurityConfig {
 
   private final UserService userService;
   private final PasswordEncoder passwordEncoder;
-  private final JwtProperties jwtProperties;
+  private final JwtUtil jwtUtil;
 
   @Autowired
-  public WebSecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtProperties jwtProperties) {
+  public WebSecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
     this.userService = userService;
     this.passwordEncoder = passwordEncoder;
-    this.jwtProperties = jwtProperties;
+    this.jwtUtil = jwtUtil;
   }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http.authorizeHttpRequests(
-        requests -> requests.requestMatchers(HttpMethod.POST, "/user/login", "/user/register").permitAll()
-            .requestMatchers(HttpMethod.GET, "/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*").permitAll()
-            .anyRequest().authenticated())
-        .addFilterAfter(new JWTAuthenticationFilter(new AntPathRequestMatcher("/user/login", "POST"),
-            authenticationManager(), jwtProperties), UsernamePasswordAuthenticationFilter.class)
-        .addFilterAfter(new JWTAuthorizationFilter(userService, jwtProperties),
-            UsernamePasswordAuthenticationFilter.class)
+    return http
+        .authorizeHttpRequests(
+            requests -> requests
+                .requestMatchers(HttpMethod.POST, "/auth/authenticate", "/user/register", "/error")
+                .permitAll()
+                .requestMatchers(HttpMethod.GET, "/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*")
+                .permitAll().anyRequest().authenticated())
+        .addFilterAfter(new JWTAuthorizationFilter(userService, jwtUtil), UsernamePasswordAuthenticationFilter.class)
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(csrf -> csrf.disable())

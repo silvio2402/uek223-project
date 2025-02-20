@@ -1,18 +1,8 @@
 package com.ourspace.backend.core.security;
 
-import com.ourspace.backend.core.security.helpers.AuthorizationSchemas;
-import com.ourspace.backend.core.security.helpers.JwtProperties;
-import com.ourspace.backend.domain.user.UserDetailsImpl;
-import com.ourspace.backend.domain.user.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import java.io.IOException;
 import java.util.UUID;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,25 +10,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.ourspace.backend.core.security.helpers.AuthorizationSchemas;
+import com.ourspace.backend.core.security.helpers.JwtUtil;
+import com.ourspace.backend.domain.user.UserDetailsImpl;
+import com.ourspace.backend.domain.user.UserService;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
   private final UserService userService;
-  private final JwtProperties jwtProperties;
+  private final JwtUtil jwtUtil;
 
-  public JWTAuthorizationFilter(UserService userService, JwtProperties jwtProperties) {
+  public JWTAuthorizationFilter(UserService userService, JwtUtil jwtUtil) {
     this.userService = userService;
-    this.jwtProperties = jwtProperties;
+    this.jwtUtil = jwtUtil;
   }
 
   private String resolveToken(String token) {
     if (token != null && token.startsWith(AuthorizationSchemas.BEARER.toString())) {
-      byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecret());
-      return Jwts.parser()
-          .verifyWith(Keys.hmacShaKeyFor(keyBytes))
-          .build()
-          .parseSignedClaims(token.replace(AuthorizationSchemas.BEARER + " ", ""))
-          .getPayload()
-          .getSubject();
+      return jwtUtil.extractUserId(token.replace(AuthorizationSchemas.BEARER + " ", ""));
     } else {
       return null;
     }
