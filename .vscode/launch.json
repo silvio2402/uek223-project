@@ -5,11 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "firefox",
+            "name": "Frontend",
+            "preLaunchTask": "bun dev frontend",
+            "request": "launch",
+            "skipFiles": [
+                "${workspaceFolder}/node_modules/**/*"
+            ],
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/frontend"
+        },
+        {
             "type": "java",
             "name": "OurspaceBackendApplication",
             "request": "launch",
             "mainClass": "com.ourspace.backend.OurspaceBackendApplication",
             "projectName": "backend"
-        }
+        },
     ]
 }
