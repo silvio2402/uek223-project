@@ -19,7 +19,7 @@ INSERT INTO authority(id, name)
 VALUES ('76d2cbf6-5845-470e-ad5f-2edb9e09a868', 'USER_MODIFY_OWN'),  
        ('21c942db-a275-43f8-bdd6-d048c21bf5ab', 'USER_DELETE_OWN'),  
        ('87e3cbf6-5845-470e-ad5f-2edb9e09a868', 'USER_MODIFY_ALL'),  
-       ('32d42db-a275-43f8-bdd6-d048c21bf5ab', 'USER_DELETE_ALL'),  
+       ('32d42dbf-a275-43f8-bdd6-d048c21bf5ab', 'USER_DELETE_ALL'),  
        ('3a1f5b6e-8c3b-4d6b-9b8e-2a8b3e1d5f6a', 'MYLISTENTRY_MODIFY_OWN'),
        ('4b2f6c7e-9d4c-4e7b-8b9e-3b9c4e2d6f7b', 'MYLISTENTRY_DELETE_OWN'),
        ('5c2f6c7e-9d4c-4e7b-8b9e-3b9c4e2d6f7b', 'MYLISTENTRY_MODIFY_ALL'),
@@ -38,7 +38,7 @@ INSERT INTO role_authority(role_id, authority_id)
 VALUES
     -- ADMIN role:  All authorities
     ('ab505c92-7280-49fd-a7de-258e618df074', '87e3cbf6-5845-470e-ad5f-2edb9e09a868'), -- USER_MODIFY_ALL
-    ('ab505c92-7280-49fd-a7de-258e618df074', '32d42db-a275-43f8-bdd6-d048c21bf5ab'), -- USER_DELETE_ALL
+    ('ab505c92-7280-49fd-a7de-258e618df074', '32d42dbf-a275-43f8-bdd6-d048c21bf5ab'), -- USER_DELETE_ALL
     ('ab505c92-7280-49fd-a7de-258e618df074', '5c2f6c7e-9d4c-4e7b-8b9e-3b9c4e2d6f7b'), -- MYLISTENTRY_MODIFY_ALL
     ('ab505c92-7280-49fd-a7de-258e618df074', '6d2f6c7e-9d4c-4e7b-8b9e-3b9c4e2d6f7b'), -- MYLISTENTRY_DELETE_ALL
      --Include own authorities as well
