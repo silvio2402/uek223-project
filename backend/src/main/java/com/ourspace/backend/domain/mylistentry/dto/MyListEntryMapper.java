@@ -11,6 +11,8 @@ import com.ourspace.backend.domain.user.dto.UserMapper;
 @Mapper(componentModel = "spring", uses = { UserMapper.class })
 public interface MyListEntryMapper {
 
+  @Mapping(target = "title", source = "title")
+  @Mapping(target = "user_id", source = "user.id")
   MyListEntryDTO toDto(MyListEntry entity);
 
   MyListEntry toEntity(MyListEntryDTO dto);
