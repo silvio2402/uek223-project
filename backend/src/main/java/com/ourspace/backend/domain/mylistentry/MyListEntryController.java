@@ -55,7 +55,7 @@ public class MyListEntryController {
   }
 
   @PostMapping({ "", "/" })
-  @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
+  @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN')")
   public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody PostMyListEntryDTO myListEntryDTO) {
     MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
     MyListEntry createdMyListEntry = mylistentryService.create(myListEntry);
@@ -66,7 +66,7 @@ public class MyListEntryController {
   }
 
   @PutMapping("/{id}")
-  @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
+  @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || (hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(#id))")
   public ResponseEntity<MyListEntryDTO> update(@PathVariable UUID id,
       @Valid @RequestBody MyListEntryDTO myListEntryDTO) {
     MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
@@ -77,7 +77,7 @@ public class MyListEntryController {
   }
 
   @DeleteMapping("/{id}")
-  @PreAuthorize("hasAuthority('MYLISTENTRY_DELETE_ALL') || hasAuthority('MYLISTENTRY_DELETE_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
+  @PreAuthorize("hasAuthority('MYLISTENTRY_DELETE_ALL') || (hasAuthority('MYLISTENTRY_DELETE_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(#id))")
   public ResponseEntity<Void> delete(@PathVariable UUID id) {
     mylistentryService.deleteById(id);
     return ResponseEntity.noContent().build();
