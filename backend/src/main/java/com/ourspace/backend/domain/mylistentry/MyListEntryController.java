@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryDTO;
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryMapper;
 import com.ourspace.backend.domain.mylistentry.dto.PostMyListEntryDTO;
+import com.ourspace.backend.domain.user.UserService;
 
 import jakarta.validation.Valid;
 
@@ -30,12 +31,15 @@ import jakarta.validation.Valid;
 public class MyListEntryController {
 
   private final MyListEntryService mylistentryService;
+  private final UserService userService;
   private final MyListEntryMapper myListEntryMapper;
 
   @Autowired
-  public MyListEntryController(MyListEntryService mylistentryService, MyListEntryMapper myListEntryMapper) {
+  public MyListEntryController(MyListEntryService mylistentryService, MyListEntryMapper myListEntryMapper,
+      UserService userService) {
     this.mylistentryService = mylistentryService;
     this.myListEntryMapper = myListEntryMapper;
+    this.userService = userService;
   }
 
   @GetMapping({ "", "/" })
@@ -66,6 +70,8 @@ public class MyListEntryController {
   public ResponseEntity<MyListEntryDTO> update(@PathVariable UUID id,
       @Valid @RequestBody MyListEntryDTO myListEntryDTO) {
     MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
+    myListEntry.setUser(userService.findById(myListEntryDTO.getUser_id()));
+
     MyListEntry updatedMyListEntry = mylistentryService.updateById(id, myListEntry);
     return ResponseEntity.ok(myListEntryMapper.toDto(updatedMyListEntry));
   }
