@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryDTO;
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryMapper;
 import com.ourspace.backend.domain.mylistentry.dto.PostMyListEntryDTO;
-import com.ourspace.backend.domain.user.User;
-import com.ourspace.backend.domain.user.UserUtil;
 
 import jakarta.validation.Valid;
 
@@ -53,9 +51,7 @@ public class MyListEntryController {
   @PostMapping({ "", "/" })
   @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
   public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody PostMyListEntryDTO myListEntryDTO) {
-    User user = UserUtil.getCurrentUser();
-    MyListEntry createdMyListEntry = mylistentryService.create(myListEntryDTO,
-        user);
+    MyListEntry createdMyListEntry = mylistentryService.create(myListEntryDTO);
     return ResponseEntity.ok(myListEntryMapper.toDto(createdMyListEntry));
   }
 

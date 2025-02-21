@@ -10,6 +10,7 @@ import com.ourspace.backend.core.generic.AbstractServiceImpl;
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryMapper;
 import com.ourspace.backend.domain.mylistentry.dto.PostMyListEntryDTO;
 import com.ourspace.backend.domain.user.User;
+import com.ourspace.backend.domain.user.UserUtil;
 
 @Service
 public class MyListEntryServiceImpl extends AbstractServiceImpl<MyListEntry> implements MyListEntryService {
@@ -23,7 +24,8 @@ public class MyListEntryServiceImpl extends AbstractServiceImpl<MyListEntry> imp
   }
 
   @Override
-  public MyListEntry create(PostMyListEntryDTO myListEntryDTO, User user) {
+  public MyListEntry create(PostMyListEntryDTO myListEntryDTO) {
+    User user = UserUtil.getCurrentUser();
     MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
     myListEntry.setCreation_date(new java.sql.Date(new Date().getTime()));
     myListEntry.setUser(user);
