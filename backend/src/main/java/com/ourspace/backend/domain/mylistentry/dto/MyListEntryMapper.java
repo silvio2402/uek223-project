@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 import com.ourspace.backend.domain.mylistentry.MyListEntry;
 import com.ourspace.backend.domain.user.dto.UserMapper;
@@ -21,7 +22,7 @@ public interface MyListEntryMapper {
   @Mapping(target = "user", ignore = true)
   MyListEntry toEntity(PostMyListEntryDTO dto);
 
-  List<MyListEntryDTO> toDtoList(List<MyListEntry> entityList);
+  List<MyListEntryDTO> toDtoList(Page<MyListEntry> entityList);
 
   List<MyListEntry> toEntityList(List<MyListEntryDTO> dtoList);
 }

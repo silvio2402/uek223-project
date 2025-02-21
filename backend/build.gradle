@@ -53,6 +53,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
+    // https://mvnrepository.com/artifact/com.turkraft.springfilter/jpa
+    implementation 'com.turkraft.springfilter:jpa:3.1.9'
+
     // Development-time dependencies
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

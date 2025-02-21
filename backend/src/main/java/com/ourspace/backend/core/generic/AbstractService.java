@@ -3,7 +3,10 @@ package com.ourspace.backend.core.generic;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 public interface AbstractService<T extends AbstractEntity> {
 
@@ -21,4 +24,5 @@ public interface AbstractService<T extends AbstractEntity> {
 
   boolean existsById(UUID id);
 
+  Page<T> findAll(Specification<T> spec, Pageable pageable);
 }

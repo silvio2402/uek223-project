@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +25,7 @@ import com.ourspace.backend.domain.mylistentry.dto.MyListEntryDTO;
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryMapper;
 import com.ourspace.backend.domain.mylistentry.dto.PostMyListEntryDTO;
 import com.ourspace.backend.domain.user.UserService;
+import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 
@@ -43,8 +47,8 @@ public class MyListEntryController {
   }
 
   @GetMapping({ "", "/" })
-  public ResponseEntity<List<MyListEntryDTO>> retrieveAll() {
-    List<MyListEntry> mylistentries = mylistentryService.findAll();
+  public ResponseEntity<List<MyListEntryDTO>> retrieveAll(@Filter Specification<MyListEntry> spec, Pageable pageable) {
+    Page<MyListEntry> mylistentries = mylistentryService.findAll(spec, pageable);
     return ResponseEntity.ok(myListEntryMapper.toDtoList(mylistentries));
   }
 

@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public abstract class AbstractServiceImpl<T extends AbstractEntity> implements AbstractService<T> {
@@ -59,4 +61,7 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
     return repository.existsById(id);
   }
 
+  public Page<T> findAll(Specification<T> spec, Pageable pageable) {
+    return repository.findAll(spec, pageable);
+  }
 }
