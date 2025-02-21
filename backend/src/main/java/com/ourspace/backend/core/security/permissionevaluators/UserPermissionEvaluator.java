@@ -1,5 +1,7 @@
 package com.ourspace.backend.core.security.permissionevaluators;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import com.ourspace.backend.domain.user.User;
@@ -11,9 +13,9 @@ public class UserPermissionEvaluator {
   public UserPermissionEvaluator() {
   }
 
-  public boolean isOwnUser(User user) {
-    User activeUser = UserUtil.getCurrentUser();
-    return user.getId() == activeUser.getId();
+  public boolean isOwnUser(UUID uuid) {
+    User user = UserUtil.getCurrentUser();
+    return user.getId().equals(uuid);
   }
 
 }
