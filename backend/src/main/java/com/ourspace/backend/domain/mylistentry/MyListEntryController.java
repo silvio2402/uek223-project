@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ourspace.backend.domain.mylistentry.dto.MyListEntryDTO;
+import com.ourspace.backend.domain.mylistentry.dto.MyListEntryMapper;
 import com.ourspace.backend.domain.user.User;
 
 import jakarta.validation.Valid;
@@ -26,36 +28,41 @@ import jakarta.validation.Valid;
 public class MyListEntryController {
 
   private final MyListEntryService mylistentryService;
+  private final MyListEntryMapper myListEntryMapper;
 
   @Autowired
-  public MyListEntryController(MyListEntryService mylistentryService) {
+  public MyListEntryController(MyListEntryService mylistentryService, MyListEntryMapper myListEntryMapper) {
     this.mylistentryService = mylistentryService;
+    this.myListEntryMapper = myListEntryMapper;
   }
 
   @GetMapping({ "", "/" })
-  public ResponseEntity<List<MyListEntry>> retrieveAll() {
+  public ResponseEntity<List<MyListEntryDTO>> retrieveAll() {
     List<MyListEntry> mylistentries = mylistentryService.findAll();
-    return ResponseEntity.ok(mylistentries);
+    return ResponseEntity.ok(myListEntryMapper.toDtoList(mylistentries));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<MyListEntry> retrieveById(@PathVariable UUID id) {
+  public ResponseEntity<MyListEntryDTO> retrieveById(@PathVariable UUID id) {
     MyListEntry mylistentry = mylistentryService.findById(id);
-    return ResponseEntity.ok(mylistentry);
+    return ResponseEntity.ok(myListEntryMapper.toDto(mylistentry));
   }
 
   @PostMapping({ "", "/" })
   @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
-  public ResponseEntity<MyListEntry> create(@Valid @RequestBody MyListEntry myListEntry, User user) {
+  public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody MyListEntryDTO myListEntryDTO, User user) {
+    MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
     MyListEntry createdMyListEntry = mylistentryService.create(myListEntry, user);
-    return ResponseEntity.ok(createdMyListEntry);
+    return ResponseEntity.ok(myListEntryMapper.toDto(createdMyListEntry));
   }
 
   @PutMapping("/{id}")
   @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
-  public ResponseEntity<MyListEntry> update(@PathVariable UUID id, @Valid @RequestBody MyListEntry myListEntry) {
+  public ResponseEntity<MyListEntryDTO> update(@PathVariable UUID id,
+      @Valid @RequestBody MyListEntryDTO myListEntryDTO) {
+    MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
     MyListEntry updatedMyListEntry = mylistentryService.updateById(id, myListEntry);
-    return ResponseEntity.ok(updatedMyListEntry);
+    return ResponseEntity.ok(myListEntryMapper.toDto(updatedMyListEntry));
   }
 
   @DeleteMapping("/{id}")
