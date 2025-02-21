@@ -24,9 +24,8 @@ public class MyListEntryServiceImpl extends AbstractServiceImpl<MyListEntry> imp
   }
 
   @Override
-  public MyListEntry create(PostMyListEntryDTO myListEntryDTO) {
+  public MyListEntry create(MyListEntry myListEntry) {
     User user = UserUtil.getCurrentUser();
-    MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
     myListEntry.setCreation_date(new java.sql.Date(new Date().getTime()));
     myListEntry.setUser(user);
     return save(myListEntry);

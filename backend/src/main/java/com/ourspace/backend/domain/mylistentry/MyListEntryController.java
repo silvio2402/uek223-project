@@ -1,5 +1,6 @@
 package com.ourspace.backend.domain.mylistentry;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryDTO;
 import com.ourspace.backend.domain.mylistentry.dto.MyListEntryMapper;
@@ -51,8 +53,12 @@ public class MyListEntryController {
   @PostMapping({ "", "/" })
   @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(principal, #myListEntry.id, this)")
   public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody PostMyListEntryDTO myListEntryDTO) {
-    MyListEntry createdMyListEntry = mylistentryService.create(myListEntryDTO);
-    return ResponseEntity.ok(myListEntryMapper.toDto(createdMyListEntry));
+    MyListEntry myListEntry = myListEntryMapper.toEntity(myListEntryDTO);
+    MyListEntry createdMyListEntry = mylistentryService.create(myListEntry);
+
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        .buildAndExpand(createdMyListEntry.getId()).toUri();
+    return ResponseEntity.created(location).body(myListEntryMapper.toDto(createdMyListEntry));
   }
 
   @PutMapping("/{id}")
