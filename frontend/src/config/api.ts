@@ -2,6 +2,7 @@ import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios"
 import {
   getAccessToken,
   getRefreshToken,
+  logoutAuth,
   refreshAuth,
 } from "../services/authService"
 
@@ -34,6 +35,9 @@ api.interceptors.response.use(
     }
     const status = error.response?.status
     if ((status === 401 || status === 403) && !originalRequest._retry) {
+      if (originalRequest.url === "/auth/refresh") {
+        logoutAuth()
+      }
       originalRequest._retry = true
       await refreshAuth()
       return api(originalRequest)
