@@ -47,12 +47,14 @@ public class MyListEntryController {
   }
 
   @GetMapping({ "", "/" })
+  @PreAuthorize("hasAuthority('MYLISTENTRY_READ_ALL')")
   public ResponseEntity<List<MyListEntryDTO>> retrieveAll(@Filter Specification<MyListEntry> spec, Pageable pageable) {
     Page<MyListEntry> mylistentries = mylistentryService.findAll(spec, pageable);
     return ResponseEntity.ok(myListEntryMapper.toDtoList(mylistentries));
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('MYLISTENTRY_READ_ALL')")
   public ResponseEntity<MyListEntryDTO> retrieveById(@PathVariable UUID id) {
     MyListEntry mylistentry = mylistentryService.findById(id);
     return ResponseEntity.ok(myListEntryMapper.toDto(mylistentry));
