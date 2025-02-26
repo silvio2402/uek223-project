@@ -9,10 +9,10 @@ import {
 } from "@mui/material"
 import { AxiosError } from "axios"
 import { useState } from "react"
-import { useCookies } from "react-cookie"
 import { useForm } from "react-hook-form"
 import { useLocation, useNavigate } from "react-router-dom"
 import * as z from "zod"
+import { useActiveUser } from "../contexts/activeUser"
 import { loginAuth, logoutAuth } from "../services/authService"
 import { addUser } from "../services/userService"
 
@@ -45,7 +45,7 @@ function LoginPage() {
   const location = useLocation()
   const [isRegistering, setIsRegistering] = useState(false)
   const [formError, setFormError] = useState<string>("")
-  const [cookies] = useCookies(["accessToken"])
+  const user = useActiveUser()
 
   const {
     register,
@@ -108,7 +108,11 @@ function LoginPage() {
     }
   }
 
-  if (cookies.accessToken) {
+  if (user === undefined) {
+    return <Typography>Loading...</Typography>
+  }
+
+  if (user != null) {
     return (
       <Container maxWidth="sm">
         <Stack spacing={2}>
