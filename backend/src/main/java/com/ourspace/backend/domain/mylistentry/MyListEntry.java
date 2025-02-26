@@ -26,7 +26,7 @@ public class MyListEntry extends AbstractEntity {
   private String text;
 
   @Column(name = "importance")
-  private String importance;
+  private Integer importance;
 
   @Column(name = "creation_date")
   private Date creation_date;

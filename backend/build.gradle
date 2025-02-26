@@ -45,13 +45,13 @@ dependencies {
     // Validation Library
     implementation 'commons-validator:commons-validator:1.9.0'
 
-    // MapStruct (Object mapping)
-    implementation 'org.mapstruct:mapstruct:1.6.3'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
-
     // Lombok (Code generation)
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    // MapStruct (Object mapping)
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
     // https://mvnrepository.com/artifact/com.turkraft.springfilter/jpa
     implementation 'com.turkraft.springfilter:jpa:3.1.9'
