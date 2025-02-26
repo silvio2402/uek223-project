@@ -5,7 +5,7 @@ import RefreshTokenNotFoundException from "../exceptions/RefreshTokenNotFoundExc
 import { AuthRequest } from "../types/models/AuthRequest.model"
 import { AuthResponse } from "../types/models/AuthResponse.model"
 
-const authCookies = new Cookies(null, { path: "/" })
+export const authCookies = new Cookies(null, { path: "/" })
 
 function setAuthCookies(authResponse: AuthResponse): void {
   const { accessToken, refreshToken } = authResponse
@@ -15,22 +15,27 @@ function setAuthCookies(authResponse: AuthResponse): void {
 
   authCookies.set("accessToken", accessToken, {
     expires: accessTokenExpiry ? new Date(accessTokenExpiry * 1000) : undefined,
-    secure: true,
   })
   authCookies.set("refreshToken", refreshToken, {
     expires: refreshTokenExpiry
       ? new Date(refreshTokenExpiry * 1000)
       : undefined,
-    secure: true,
   })
 }
 
 export function getAccessToken() {
-  return authCookies.get<string>("accessToken")
+  return authCookies.get<string | undefined>("accessToken")
 }
 
 export function getRefreshToken() {
-  return authCookies.get<string>("refreshToken")
+  return authCookies.get<string | undefined>("refreshToken")
+}
+
+export function getAuthTokens() {
+  return {
+    accessToken: getAccessToken(),
+    refreshToken: getRefreshToken(),
+  }
 }
 
 export async function loginAuth(authRequest: AuthRequest): Promise<void> {

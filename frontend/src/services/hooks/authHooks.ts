@@ -1,23 +1,20 @@
-import { useCookies } from "react-cookie"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
+import { authCookies, getAuthTokens } from "../authService"
 
-export function useAccessToken() {
-  const [cookies] = useCookies<
-    "accessToken",
-    {
-      accessToken?: string
-    }
-  >(["accessToken"])
+export function useAuthTokens() {
+  const location = useLocation()
 
-  return cookies.accessToken
-}
+  const [authTokens, setAuthTokens] = useState(() => getAuthTokens())
 
-export function useRefreshToken() {
-  const [cookies] = useCookies<
-    "refreshToken",
-    {
-      refreshToken?: string
-    }
-  >(["refreshToken"])
+  useEffect(() => {
+    setAuthTokens(() => getAuthTokens())
 
-  return cookies.refreshToken
+    const changeHandler = () => setAuthTokens(() => getAuthTokens())
+
+    authCookies.addChangeListener(changeHandler)
+    return () => authCookies.removeChangeListener(changeHandler)
+  }, [location.key])
+
+  return authTokens
 }

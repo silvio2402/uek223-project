@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { jwtDecode } from "jwt-decode"
 import { createContext, PropsWithChildren, useContext } from "react"
-import { useAccessToken, useRefreshToken } from "../services/hooks/authHooks"
+import { useAuthTokens } from "../services/hooks/authHooks"
 import { getUser } from "../services/userService"
 import { User } from "../types/models/User.model"
 
@@ -10,16 +10,21 @@ const ActiveUserContext = createContext<
 >(undefined)
 
 export function ActiveUserProvider({ children }: PropsWithChildren<unknown>) {
-  const accessToken = useAccessToken()
-  const refreshToken = useRefreshToken()
-
-  let userId = accessToken ? jwtDecode(accessToken).sub : undefined
-  userId = userId ?? (refreshToken ? jwtDecode(refreshToken).sub : undefined)
+  const authTokens = useAuthTokens()
 
   const queryResult = useQuery<User | null>({
-    queryKey: ["users", userId],
-    queryFn: () => (userId ? getUser(userId) : null),
+    queryKey: ["users", authTokens],
+    queryFn: () => {
+      const { accessToken, refreshToken } = authTokens
+      let userId = accessToken ? jwtDecode(accessToken).sub : undefined
+      userId =
+        userId ?? (refreshToken ? jwtDecode(refreshToken).sub : undefined)
+
+      return userId ? getUser(userId) : null
+    },
   })
+
+  console.log("activeUserProvider", JSON.stringify(queryResult, null, 2))
 
   return <ActiveUserContext value={queryResult}>{children}</ActiveUserContext>
 }

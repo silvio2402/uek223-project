@@ -1,7 +1,7 @@
 import { Button, Grid, Link, Paper, TextField, Typography } from "@mui/material"
 
 import { Form, Formik } from "formik"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import * as Yup from "yup"
 import { loginAuth } from "../services/authService"
 
@@ -19,13 +19,22 @@ function Login() {
   }
   const btnstyle = { margin: "8px 0" }
   const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSubmit = async (values: { email: string; password: string }) => {
     await loginAuth({
       email: values.email.toLowerCase(),
       password: values.password,
     })
-    navigate("/")
+    const redirectUrl = decodeURIComponent(
+      new URLSearchParams(location.search).get("redirectUrl") ?? "/"
+    )
+    // Redirect to the redirectUrl if it is a relative path
+    if (redirectUrl.startsWith("/")) {
+      navigate(redirectUrl)
+    } else {
+      navigate("/")
+    }
   }
 
   return (
