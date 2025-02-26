@@ -1,0 +1,9 @@
+package com.ourspace.backend.domain.role;
+
+import org.springframework.stereotype.Repository;
+
+import com.ourspace.backend.core.generic.AbstractRepository;
+
+@Repository
+public interface RoleRepository extends AbstractRepository<Role> {
+}
