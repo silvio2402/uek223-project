@@ -6,17 +6,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
+
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 
 @RestControllerAdvice
 @AllArgsConstructor
@@ -69,6 +73,26 @@ public class CustomGlobalExceptionHandler {
   public ResponseError handleIOException(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("ioException", e.getMessage());
+    return new ResponseError().setTimeStamp(LocalDate.now())
+        .setErrors(errors)
+        .build();
+  }
+
+  @ExceptionHandler({ AccessDeniedException.class })
+  @ResponseStatus(value = HttpStatus.FORBIDDEN)
+  public ResponseError handleAccessDeneidException(Throwable e) {
+    Map<String, String> errors = new HashMap<>();
+    errors.put("accessDeneidException", e.getMessage());
+    return new ResponseError().setTimeStamp(LocalDate.now())
+        .setErrors(errors)
+        .build();
+  }
+
+  @ExceptionHandler({ AuthenticationException.class })
+  @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+  public ResponseError handleAuthenticationException(Throwable e) {
+    Map<String, String> errors = new HashMap<>();
+    errors.put("authenticationException", e.getMessage());
     return new ResponseError().setTimeStamp(LocalDate.now())
         .setErrors(errors)
         .build();

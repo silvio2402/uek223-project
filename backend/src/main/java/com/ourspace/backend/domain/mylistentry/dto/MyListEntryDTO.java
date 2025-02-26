@@ -1,6 +1,5 @@
 package com.ourspace.backend.domain.mylistentry.dto;
 
-import java.util.Date;
 import java.util.UUID;
 
 import com.ourspace.backend.core.generic.AbstractDTO;
@@ -22,7 +21,7 @@ public class MyListEntryDTO extends AbstractDTO {
 
   private Integer importance;
 
-  private Date creation_date;
+  private java.sql.Date creation_date;
 
   private UUID user_id;
 }
