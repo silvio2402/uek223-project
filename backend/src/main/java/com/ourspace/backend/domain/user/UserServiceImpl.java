@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -34,7 +33,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 
   private Set<Role> getUserRoleSet() {
     Set<Role> roles = new HashSet();
-    Role role = roleRepository.findById(UUID.fromString("c6aee32d-8c35-4481-8b3e-a876a39b0c02")).get();
+    Role role = roleRepository.findByName("USER");
     roles.add(role);
     return roles;
   }

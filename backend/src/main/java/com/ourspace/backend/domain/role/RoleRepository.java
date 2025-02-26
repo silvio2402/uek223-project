@@ -6,4 +6,5 @@ import com.ourspace.backend.core.generic.AbstractRepository;
 
 @Repository
 public interface RoleRepository extends AbstractRepository<Role> {
+  Role findByName(String name);
 }
