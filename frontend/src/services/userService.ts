@@ -1,5 +1,6 @@
 import api from "../config/api"
 import { User } from "../types/models/User.model"
+import { UserRegister } from "../types/models/UserRegister.model"
 
 export async function getUser(userID: string): Promise<User> {
   const { data } = await api.get<User>(`/user/${userID}`)
@@ -10,8 +11,8 @@ export async function updateUser(user: User): Promise<void> {
   await api.put(`/user/${user.id}`, user)
 }
 
-export async function addUser(user: User): Promise<User> {
-  const { data } = await api.post("/user/registerUser", user)
+export async function addUser(user: UserRegister): Promise<User> {
+  const { data } = await api.post("/user/register", user)
   return data
 }
 
