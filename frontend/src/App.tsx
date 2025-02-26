@@ -1,3 +1,4 @@
+import { CssBaseline } from "@mui/material"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { CookiesProvider } from "react-cookie"
 import "./App.css"
@@ -7,13 +8,16 @@ import { queryClient } from "./services/hooks/queryClient"
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <CookiesProvider>
-        <ActiveUserProvider>
-          <Router />
-        </ActiveUserProvider>
-      </CookiesProvider>
-    </QueryClientProvider>
+    <>
+      <CssBaseline />
+      <QueryClientProvider client={queryClient}>
+        <CookiesProvider>
+          <ActiveUserProvider>
+            <Router />
+          </ActiveUserProvider>
+        </CookiesProvider>
+      </QueryClientProvider>
+    </>
   )
 }
 

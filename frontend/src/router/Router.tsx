@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom"
+import Layout from "../components/Layout"
 import UserTable from "../components/UserTable"
 import authorities from "../config/authorities"
 import HomePage from "../pages/HomePage"
@@ -9,36 +10,39 @@ import ProtectedRoute from "./ProtectedRoute"
 function Router() {
   return (
     <Routes>
-      <Route path={"/"} element={<HomePage />} />
-      <Route path={"/login"} element={<LoginPage />} />
+      <Route path={"/"} element={<Layout />}>
+        <Route index element={<HomePage />} />
 
-      <Route
-        path={"/users"}
-        element={<ProtectedRoute element={<UserTable />} />}
-      />
-      <Route
-        path="/useredit"
-        element={
-          <ProtectedRoute
-            anyAuthorityOf={[
-              authorities.USER_DEACTIVATE,
-              authorities.USER_CREATE,
-            ]}
-            element={<UserPage />}
-          />
-        }
-      />
-      <Route
-        path="/useredit/:userId"
-        element={
-          <ProtectedRoute
-            anyAuthorityOf={[authorities.USER_READ]}
-            element={<UserPage />}
-          />
-        }
-      />
+        <Route path={"/login"} element={<LoginPage />} />
 
-      <Route path="*" element={<div>Not Found</div>} />
+        <Route
+          path={"/users"}
+          element={<ProtectedRoute element={<UserTable />} />}
+        />
+        <Route
+          path="/useredit"
+          element={
+            <ProtectedRoute
+              anyAuthorityOf={[
+                authorities.USER_DEACTIVATE,
+                authorities.USER_CREATE,
+              ]}
+              element={<UserPage />}
+            />
+          }
+        />
+        <Route
+          path="/useredit/:userId"
+          element={
+            <ProtectedRoute
+              anyAuthorityOf={[authorities.USER_READ]}
+              element={<UserPage />}
+            />
+          }
+        />
+
+        <Route path="*" element={<div>Not Found</div>} />
+      </Route>
     </Routes>
   )
 }
