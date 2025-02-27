@@ -10,12 +10,12 @@ export async function getUser(userID: string) {
 
 export async function updateUser(user: User) {
   await api.put(`/user/${user.id}`, user)
-  queryClient.invalidateQueries({ queryKey: ["users"] })
+  await queryClient.invalidateQueries({ queryKey: ["users"] })
 }
 
 export async function addUser(user: UserRegister) {
   const { data } = await api.post<User>("/user/register", user)
-  queryClient.invalidateQueries({ queryKey: ["users"] })
+  await queryClient.invalidateQueries({ queryKey: ["users"] })
   return data
 }
 
@@ -26,5 +26,5 @@ export async function getAllUsers() {
 
 export async function deleteUser(id: string) {
   await api.delete(`/user/${id}`)
-  queryClient.invalidateQueries({ queryKey: ["users"] })
+  await queryClient.invalidateQueries({ queryKey: ["users"] })
 }
