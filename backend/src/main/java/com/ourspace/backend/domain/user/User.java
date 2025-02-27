@@ -8,6 +8,7 @@ import com.ourspace.backend.core.generic.AbstractEntity;
 import com.ourspace.backend.domain.mylistentry.MyListEntry;
 import com.ourspace.backend.domain.role.Role;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -48,7 +49,7 @@ public class User extends AbstractEntity {
   @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private Set<MyListEntry> listEntities;
 
   public User(UUID id, String firstName, String lastName, String email, String password, Set<Role> roles) {
