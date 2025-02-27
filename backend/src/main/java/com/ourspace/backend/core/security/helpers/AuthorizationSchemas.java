@@ -1,6 +1,9 @@
 package com.ourspace.backend.core.security.helpers;
 
-//As introduced in HTTP/1.0 https://www.rfc-editor.org/rfc/rfc1945
+/**
+ * Enum defining the authorization schemas.
+ * As introduced in HTTP/1.0 https://www.rfc-editor.org/rfc/rfc1945
+ */
 public enum AuthorizationSchemas {
   BASIC("Basic"), BEARER("Bearer"), DIGEST("Digest");
 

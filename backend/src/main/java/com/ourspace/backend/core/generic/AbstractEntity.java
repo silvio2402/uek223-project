@@ -1,6 +1,9 @@
 package com.ourspace.backend.core.generic;
 
 import java.util.UUID;
+
+import org.hibernate.annotations.UuidGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -9,8 +12,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.UuidGenerator;
 
+/**
+ * Abstract base class for entities, providing a UUID identifier.
+ */
 @MappedSuperclass
 @Getter
 @Setter

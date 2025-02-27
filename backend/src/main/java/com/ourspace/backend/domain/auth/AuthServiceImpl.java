@@ -10,6 +10,9 @@ import com.ourspace.backend.core.security.helpers.JwtUtil;
 import com.ourspace.backend.domain.auth.dto.AuthResponse;
 import com.ourspace.backend.domain.user.UserDetailsImpl;
 
+/**
+ * Service implementation for authentication.
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
   private final JwtUtil jwtUtil;
@@ -18,6 +21,12 @@ public class AuthServiceImpl implements AuthService {
     this.jwtUtil = jwtUtil;
   }
 
+  /**
+   * Generates access and refresh tokens for the given user details.
+   *
+   * @param userDetails the user details
+   * @return the authentication response
+   */
   @Override
   public AuthResponse generateTokens(UserDetails userDetails) {
     UserDetailsImpl userDetailsImpl = (UserDetailsImpl) userDetails;

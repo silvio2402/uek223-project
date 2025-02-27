@@ -11,6 +11,9 @@ import org.springframework.data.domain.Page;
 import com.ourspace.backend.domain.mylistentry.MyListEntry;
 import com.ourspace.backend.domain.user.dto.UserMapper;
 
+/**
+ * Mapper for MyListEntry.
+ */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = UserMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MyListEntryMapper {
 

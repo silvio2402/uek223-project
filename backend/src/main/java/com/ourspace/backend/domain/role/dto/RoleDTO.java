@@ -1,7 +1,11 @@
 package com.ourspace.backend.domain.role.dto;
 
+import java.util.Set;
+import java.util.UUID;
+
 import com.ourspace.backend.core.generic.AbstractDTO;
 import com.ourspace.backend.domain.authority.dto.AuthorityDTO;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,9 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.Set;
-import java.util.UUID;
-
+/**
+ * DTO for Role.
+ */
 @NoArgsConstructor
 @Setter
 @Getter

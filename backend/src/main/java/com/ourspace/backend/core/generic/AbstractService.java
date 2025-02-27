@@ -8,6 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+/**
+ * Generic interface for services.
+ *
+ * @param <T> the type of the Entity
+ */
 public interface AbstractService<T extends AbstractEntity> {
 
   T save(T entity);

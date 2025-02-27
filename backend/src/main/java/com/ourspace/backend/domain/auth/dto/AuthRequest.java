@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * DTO for authentication request.
+ */
 @Getter
 @Setter
 @Builder

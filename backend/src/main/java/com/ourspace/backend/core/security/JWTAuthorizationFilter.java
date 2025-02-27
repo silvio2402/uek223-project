@@ -20,6 +20,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Filter to handle JWT authorization for incoming requests.
+ */
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
   private final UserService userService;
@@ -30,6 +33,12 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     this.jwtUtil = jwtUtil;
   }
 
+  /**
+   * Extracts the user ID from the token.
+   *
+   * @param token the token to resolve
+   * @return the user ID or null if the token is invalid
+   */
   private String resolveToken(String token) {
     if (token != null && token.startsWith(AuthorizationSchemas.BEARER.toString())) {
       return jwtUtil.extractUserId(token.replace(AuthorizationSchemas.BEARER + " ", ""));
@@ -38,6 +47,15 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     }
   }
 
+  /**
+   * Performs the filtering for each request.
+   *
+   * @param request     the request
+   * @param response    the response
+   * @param filterChain the filter chain
+   * @throws ServletException if a servlet exception occurs
+   * @throws IOException      if an I/O exception occurs
+   */
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain)

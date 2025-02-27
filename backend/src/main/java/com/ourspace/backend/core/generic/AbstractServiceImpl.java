@@ -11,6 +11,11 @@ import org.springframework.data.jpa.domain.Specification;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Abstract base class for service implementations.
+ *
+ * @param <T> the type of the Entity
+ */
 @AllArgsConstructor
 public abstract class AbstractServiceImpl<T extends AbstractEntity> implements AbstractService<T> {
 
@@ -23,6 +28,7 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
 
   @Override
   public void deleteById(UUID id) throws NoSuchElementException {
+    // Check if the entity exists before deleting
     if (repository.existsById(id)) {
       repository.deleteById(id);
     } else {
@@ -32,6 +38,7 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
 
   @Override
   public T updateById(UUID id, T entity) throws NoSuchElementException {
+    // Check if the entity exists before updating
     if (repository.existsById(id)) {
       entity.setId(id);
       return repository.save(entity);

@@ -1,7 +1,9 @@
 package com.ourspace.backend.domain.authority;
 
-import com.ourspace.backend.core.generic.AbstractEntity;
 import java.util.UUID;
+
+import com.ourspace.backend.core.generic.AbstractEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -10,6 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * Entity representing an authority.
+ */
 @Entity
 @Table(name = "authority")
 @NoArgsConstructor
