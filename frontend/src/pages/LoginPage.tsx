@@ -177,7 +177,13 @@ function LoginPage() {
               error={!!errors.password}
               helperText={errors.password?.message}
             />
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              aria-label="Login"
+            >
               {isRegistering ? "Register" : "Login"}
             </Button>
           </Stack>
