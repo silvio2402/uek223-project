@@ -18,17 +18,30 @@ function TopBar() {
     >
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+          <Link
+            to="/"
+            style={{ color: "inherit", textDecoration: "none" }}
+            aria-label="Home"
+          >
             OurSpace
           </Link>
         </Typography>
         {user === null && (
-          <Button color="inherit" component={Link} to="/login">
+          <Button
+            color="inherit"
+            component={Link}
+            to="/login"
+            aria-label="Login"
+          >
             Login
           </Button>
         )}
         {user != null && (
-          <Button color="inherit" onClick={async () => logoutAuth()}>
+          <Button
+            color="inherit"
+            onClick={async () => logoutAuth()}
+            aria-label="Logout"
+          >
             Logout
           </Button>
         )}
