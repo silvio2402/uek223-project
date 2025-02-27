@@ -23,8 +23,8 @@ export function useUserQuery(
 export function useUpdateUserMutation() {
   return useMutation({
     mutationFn: updateUser,
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["users", variables.id] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] })
     },
   })
 }
@@ -32,8 +32,8 @@ export function useUpdateUserMutation() {
 export function useAddUserMutation() {
   return useMutation({
     mutationFn: addUser,
-    onSuccess: (user) => {
-      queryClient.invalidateQueries({ queryKey: ["users", user.id] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] })
     },
   })
 }
@@ -48,8 +48,8 @@ export function useUsersQuery() {
 export function useDeleteUserMutation() {
   return useMutation({
     mutationFn: deleteUser,
-    onSuccess: (_, id) => {
-      queryClient.invalidateQueries({ queryKey: ["users", id] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] })
     },
   })
 }
