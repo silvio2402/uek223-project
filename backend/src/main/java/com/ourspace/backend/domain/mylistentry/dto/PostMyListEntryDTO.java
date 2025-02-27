@@ -1,5 +1,6 @@
 package com.ourspace.backend.domain.mylistentry.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,6 @@ public class PostMyListEntryDTO {
   @NotNull
   private String text;
 
+  @Min(0)
   private Integer importance;
 }
