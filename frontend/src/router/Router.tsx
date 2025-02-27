@@ -6,6 +6,7 @@ import LoginPage from "../pages/LoginPage"
 import MyListEntriesPage from "../pages/MyListEntriesPage"
 import MyListEntryCreatePage from "../pages/MyListEntryCreatePage"
 import MyListEntryEditPage from "../pages/MyListEntryEditPage"
+import UnauthorizedPage from "../pages/UnauthorizedPage"
 import UserCreatePage from "../pages/UserCreatePage"
 import UserEditPage from "../pages/UserEditPage"
 import UsersPage from "../pages/UsersPage"
@@ -86,6 +87,8 @@ function Router() {
             }
           />
         </Route>
+
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
         <Route path="*" element={<div>Not Found</div>} />
       </Route>
