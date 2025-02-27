@@ -37,6 +37,10 @@ api.interceptors.response.use(
     if ((status === 401 || status === 403) && !originalRequest._retry) {
       if (originalRequest.url === "/auth/refresh") {
         logoutAuth()
+        return Promise.reject(error)
+      }
+      if (originalRequest.url === "/auth/authenticate") {
+        return Promise.reject(error)
       }
       originalRequest._retry = true
       await refreshAuth()
