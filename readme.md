@@ -31,7 +31,9 @@ cd backend
 
 2. Open a terminal in Visual Studio Code
 
-3. Run the following commands:
+3. Set the `VITE_API_BASE_URL` env variable in the .env file to the backend api address
+
+4. Run the following commands:
 
 ```bash
 cd frontend
