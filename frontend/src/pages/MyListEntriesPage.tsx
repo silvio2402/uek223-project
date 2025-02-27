@@ -189,6 +189,7 @@ function MyListEntriesPage() {
               <Box>
                 <IconButton
                   color="primary"
+                  aria-label="Add MyListEntry"
                   onClick={() => navigate("/mylistentries/create")}
                 >
                   <AddIcon />
