@@ -1,5 +1,6 @@
 import { CssBaseline } from "@mui/material"
 import { QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { CookiesProvider } from "react-cookie"
 import "./App.css"
 import { ActiveUserProvider } from "./contexts/activeUser"
@@ -11,6 +12,7 @@ function App() {
     <>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <CookiesProvider>
           <ActiveUserProvider>
             <Router />
