@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ourspace.backend.core.generic.AbstractRepository;
@@ -15,7 +14,6 @@ import com.ourspace.backend.domain.user.UserUtil;
 @Service
 public class MyListEntryServiceImpl extends AbstractServiceImpl<MyListEntry> implements MyListEntryService {
 
-  @Autowired
   public MyListEntryServiceImpl(AbstractRepository<MyListEntry> repository) {
     super(repository);
   }

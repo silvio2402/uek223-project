@@ -2,7 +2,6 @@ package com.ourspace.backend.domain.auth;
 
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import com.ourspace.backend.domain.user.UserDetailsImpl;
 public class AuthServiceImpl implements AuthService {
   private final JwtUtil jwtUtil;
 
-  @Autowired
   public AuthServiceImpl(JwtUtil jwtUtil) {
     this.jwtUtil = jwtUtil;
   }
