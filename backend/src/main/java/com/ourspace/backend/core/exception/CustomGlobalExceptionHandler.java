@@ -22,10 +22,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
+/**
+ * Global exception handler for the application.
+ */
 @RestControllerAdvice
 @AllArgsConstructor
 public class CustomGlobalExceptionHandler {
 
+  /**
+   * Handles MethodArgumentNotValidException.
+   * This exception is thrown when argument annotated with @Valid failed
+   * validation.
+   */
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public ResponseError handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
@@ -38,6 +46,10 @@ public class CustomGlobalExceptionHandler {
         .build();
   }
 
+  /**
+   * Handles NoSuchElementException.
+   * This exception is thrown when an element is not found.
+   */
   @ExceptionHandler({ NoSuchElementException.class })
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
   public ResponseError handleNoSuchElement() {
@@ -48,6 +60,10 @@ public class CustomGlobalExceptionHandler {
         .build();
   }
 
+  /**
+   * Handles UsernameNotFoundException.
+   * This exception is thrown when a username is not found.
+   */
   @ExceptionHandler({ UsernameNotFoundException.class })
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
   public ResponseError handleUsernameNotFound(Throwable e) {
@@ -58,6 +74,10 @@ public class CustomGlobalExceptionHandler {
         .build();
   }
 
+  /**
+   * Handles HttpMessageNotReadableException.
+   * This exception is thrown when the HttpMessage is not readable.
+   */
   @ExceptionHandler({ HttpMessageNotReadableException.class })
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public ResponseError handleHttp(Throwable e) {
@@ -68,6 +88,10 @@ public class CustomGlobalExceptionHandler {
         .build();
   }
 
+  /**
+   * Handles IOException.
+   * This exception is thrown when an I/O exception occurs.
+   */
   @ExceptionHandler({ IOException.class })
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public ResponseError handleIOException(Throwable e) {
@@ -78,6 +102,10 @@ public class CustomGlobalExceptionHandler {
         .build();
   }
 
+  /**
+   * Handles AccessDeniedException.
+   * This exception is thrown when access to a resource is denied.
+   */
   @ExceptionHandler({ AccessDeniedException.class })
   @ResponseStatus(value = HttpStatus.FORBIDDEN)
   public ResponseError handleAccessDeneidException(Throwable e) {
@@ -88,6 +116,10 @@ public class CustomGlobalExceptionHandler {
         .build();
   }
 
+  /**
+   * Handles AuthenticationException.
+   * This exception is thrown when authentication fails.
+   */
   @ExceptionHandler({ AuthenticationException.class })
   @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
   public ResponseError handleAuthenticationException(Throwable e) {
@@ -98,6 +130,10 @@ public class CustomGlobalExceptionHandler {
         .build();
   }
 
+  /**
+   * Handles RuntimeException.
+   * This exception is thrown when a runtime exception occurs.
+   */
   @ExceptionHandler({ RuntimeException.class })
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public ResponseError handleRuntimeException(Throwable e) {

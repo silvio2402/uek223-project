@@ -22,6 +22,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.ourspace.backend.core.security.helpers.JwtUtil;
 import com.ourspace.backend.domain.user.UserService;
 
+/**
+ * Configuration class for web security.
+ */
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
@@ -37,6 +40,13 @@ public class WebSecurityConfig {
     this.jwtUtil = jwtUtil;
   }
 
+  /**
+   * Configures the security filter chain.
+   *
+   * @param http the HttpSecurity object
+   * @return the SecurityFilterChain object
+   * @throws Exception if an exception occurs
+   */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
@@ -53,6 +63,11 @@ public class WebSecurityConfig {
         .build();
   }
 
+  /**
+   * Configures the CORS configuration source.
+   *
+   * @return the CorsConfigurationSource object
+   */
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
@@ -65,6 +80,11 @@ public class WebSecurityConfig {
     return configurationSource;
   }
 
+  /**
+   * Configures the authentication manager.
+   *
+   * @return the AuthenticationManager object
+   */
   @Bean
   public AuthenticationManager authenticationManager() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

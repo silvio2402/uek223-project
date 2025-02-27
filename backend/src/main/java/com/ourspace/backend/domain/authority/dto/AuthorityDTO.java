@@ -1,7 +1,9 @@
 package com.ourspace.backend.domain.authority.dto;
 
-import com.ourspace.backend.core.generic.AbstractDTO;
 import java.util.UUID;
+
+import com.ourspace.backend.core.generic.AbstractDTO;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -9,6 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * DTO for authority.
+ */
 @NoArgsConstructor
 @Getter
 @Setter

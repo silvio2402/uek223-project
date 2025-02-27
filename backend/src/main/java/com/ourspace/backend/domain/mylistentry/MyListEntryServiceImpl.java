@@ -11,6 +11,9 @@ import com.ourspace.backend.core.generic.AbstractServiceImpl;
 import com.ourspace.backend.domain.user.User;
 import com.ourspace.backend.domain.user.UserUtil;
 
+/**
+ * Service implementation for MyListEntry.
+ */
 @Service
 public class MyListEntryServiceImpl extends AbstractServiceImpl<MyListEntry> implements MyListEntryService {
 
@@ -18,6 +21,12 @@ public class MyListEntryServiceImpl extends AbstractServiceImpl<MyListEntry> imp
     super(repository);
   }
 
+  /**
+   * Creates a new MyListEntry.
+   *
+   * @param myListEntry the MyListEntry to create
+   * @return the created MyListEntry
+   */
   @Override
   public MyListEntry create(MyListEntry myListEntry) {
     User user = UserUtil.getCurrentUser();
@@ -26,6 +35,14 @@ public class MyListEntryServiceImpl extends AbstractServiceImpl<MyListEntry> imp
     return save(myListEntry);
   }
 
+  /**
+   * Updates an existing MyListEntry by ID.
+   *
+   * @param id     the ID of the MyListEntry to update
+   * @param entity the updated MyListEntry
+   * @return the updated MyListEntry
+   * @throws NoSuchElementException if the MyListEntry is not found
+   */
   @Override
   public MyListEntry updateById(UUID id, MyListEntry entity) throws NoSuchElementException {
     if (repository.existsById(id)) {

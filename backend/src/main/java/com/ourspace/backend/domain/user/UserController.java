@@ -22,6 +22,9 @@ import com.ourspace.backend.domain.user.dto.UserRegisterDTO;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller for User endpoints.
+ */
 @Validated
 @RestController
 @RequestMapping("/user")
@@ -35,6 +38,12 @@ public class UserController {
     this.userMapper = userMapper;
   }
 
+  /**
+   * Retrieves a user by their ID.
+   *
+   * @param id the ID of the user to retrieve
+   * @return the user DTO
+   */
   @GetMapping("/{id}")
   @PreAuthorize("hasAuthority('USER_READ_ALL')")
   public ResponseEntity<UserDTO> retrieveById(@PathVariable UUID id) {
@@ -42,6 +51,11 @@ public class UserController {
     return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
   }
 
+  /**
+   * Retrieves all users.
+   *
+   * @return the list of user DTOs
+   */
   @GetMapping({ "", "/" })
   @PreAuthorize("hasAuthority('USER_READ_ALL')")
   public ResponseEntity<List<UserDTO>> retrieveAll() {
@@ -49,18 +63,37 @@ public class UserController {
     return new ResponseEntity<>(userMapper.toDTOs(users), HttpStatus.OK);
   }
 
+  /**
+   * Registers a new user.
+   *
+   * @param userRegisterDTO the user registration DTO
+   * @return the created user DTO
+   */
   @PostMapping("/register")
   public ResponseEntity<UserDTO> register(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
     User user = userService.register(userMapper.fromUserRegisterDTO(userRegisterDTO));
     return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.CREATED);
   }
 
+  /**
+   * Registers a new user without password.
+   *
+   * @param userDTO the user DTO
+   * @return the created user DTO
+   */
   @PostMapping("/registerUser")
   public ResponseEntity<UserDTO> registerWithoutPassword(@Valid @RequestBody UserDTO userDTO) {
     User user = userService.registerUser(userMapper.fromDTO(userDTO));
     return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.CREATED);
   }
 
+  /**
+   * Updates an existing user by their ID.
+   *
+   * @param id      the ID of the user to update
+   * @param userDTO the user DTO
+   * @return the updated user DTO
+   */
   @PutMapping("/{id}")
   @PreAuthorize("hasAuthority('USER_MODIFY_ALL')  || (hasAuthority('USER_DELETE_OWN') && @userPermissionEvaluator.isOwnUser(#id))")
   public ResponseEntity<UserDTO> updateById(@PathVariable UUID id, @Valid @RequestBody UserDTO userDTO) {
@@ -68,6 +101,12 @@ public class UserController {
     return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
   }
 
+  /**
+   * Deletes a user by their ID.
+   *
+   * @param id the ID of the user to delete
+   * @return the response entity
+   */
   @DeleteMapping("/{id}")
   @PreAuthorize("hasAuthority('USER_DELETE_ALL') || (hasAuthority('USER_DELETE_OWN') && @userPermissionEvaluator.isOwnUser(#id))")
   public ResponseEntity<Void> deleteById(@PathVariable UUID id) {

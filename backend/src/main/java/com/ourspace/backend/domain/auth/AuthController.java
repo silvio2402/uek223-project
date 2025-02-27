@@ -18,6 +18,9 @@ import com.ourspace.backend.domain.auth.dto.AuthResponse;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller for authentication endpoints.
+ */
 @Validated
 @RestController
 @RequestMapping("/auth")
@@ -31,6 +34,12 @@ public class AuthController {
     this.authenticationManager = authenticationManager;
   }
 
+  /**
+   * Authenticates a user and generates tokens.
+   *
+   * @param request the authentication request
+   * @return the authentication response
+   */
   @PostMapping("/authenticate")
   public ResponseEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest request) {
     Authentication auth = authenticationManager.authenticate(
@@ -45,6 +54,11 @@ public class AuthController {
     return ResponseEntity.ok(authService.generateTokens(userDetails));
   }
 
+  /**
+   * Refreshes the tokens for a user.
+   *
+   * @return the authentication response
+   */
   @PostMapping("/refresh")
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity<AuthResponse> refresh() {

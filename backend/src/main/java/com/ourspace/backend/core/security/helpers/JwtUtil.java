@@ -13,6 +13,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+/**
+ * Utility class for handling JWT operations.
+ */
 @Service
 public class JwtUtil {
   @Value("${jwt.secret}")
@@ -24,14 +27,34 @@ public class JwtUtil {
   @Value("${jwt.refresh-token.expiration}")
   private long refreshExpiration;
 
+  /**
+   * Generates a JWT token.
+   *
+   * @param userId      the user ID
+   * @param authorities the authorities
+   * @return the JWT token
+   */
   public String generateToken(String userId, Collection<? extends GrantedAuthority> authorities) {
     return buildToken(userId, authorities, jwtExpiration);
   }
 
+  /**
+   * Generates a refresh token.
+   *
+   * @param userId      the user ID
+   * @param authorities the authorities
+   * @return the refresh token
+   */
   public String generateRefreshToken(String userId, Collection<? extends GrantedAuthority> authorities) {
     return buildToken(userId, authorities, refreshExpiration);
   }
 
+  /**
+   * Extracts the user ID from the token.
+   *
+   * @param token the token
+   * @return the user ID
+   */
   public String extractUserId(String token) {
     return Jwts
         .parser()
@@ -42,6 +65,14 @@ public class JwtUtil {
         .getSubject();
   }
 
+  /**
+   * Builds a JWT token.
+   *
+   * @param userId      the user ID
+   * @param authorities the authorities
+   * @param expiration  the expiration time
+   * @return the JWT token
+   */
   private String buildToken(
       String userId,
       Collection<? extends GrantedAuthority> authorities,

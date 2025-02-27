@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entity representing a MyListEntry.
+ */
 @Entity
 @NoArgsConstructor
 @Getter

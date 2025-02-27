@@ -18,6 +18,9 @@ import com.ourspace.backend.core.generic.AbstractServiceImpl;
 import com.ourspace.backend.domain.role.Role;
 import com.ourspace.backend.domain.role.RoleRepository;
 
+/**
+ * Service implementation for User.
+ */
 @Service
 public class UserServiceImpl extends AbstractServiceImpl<User> implements UserService {
 
@@ -31,6 +34,11 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     this.passwordEncoder = passwordEncoder;
   }
 
+  /**
+   * Gets the default user role set.
+   *
+   * @return the default user role set
+   */
   private Set<Role> getUserRoleSet() {
     Set<Role> roles = new HashSet<Role>();
     Role role = roleRepository.findByName("USER");
@@ -38,6 +46,13 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     return roles;
   }
 
+  /**
+   * Loads user details by username (email).
+   *
+   * @param email the username (email)
+   * @return the user details
+   * @throws UsernameNotFoundException if the user is not found
+   */
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     return ((UserRepository) repository).findByEmail(email)
@@ -45,6 +60,12 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
         .orElseThrow(() -> new UsernameNotFoundException(email));
   }
 
+  /**
+   * Registers a new user.
+   *
+   * @param user the user to register
+   * @return the registered user
+   */
   @Override
   public User register(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -52,15 +73,28 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     return save(user);
   }
 
+  /**
+   * Registers a new user without password.
+   * This Method can be used for development and testing. the Password for the
+   * user will be set to "1234"
+   *
+   * @param user the user to register
+   * @return the registered user
+   */
   @Override
-  // This Method can be used for development and testing. the Password for the
-  // user will be set to "1234"
   public User registerUser(User user) {
     user.setPassword(passwordEncoder.encode("1234"));
     user.setRoles(getUserRoleSet());
     return save(user);
   }
 
+  /**
+   * Updates an existing user by ID.
+   *
+   * @param id   the ID of the user to update
+   * @param user the user to update
+   * @return the updated user
+   */
   @Override
   public User updateById(UUID id, User user) {
     user.setId(id);

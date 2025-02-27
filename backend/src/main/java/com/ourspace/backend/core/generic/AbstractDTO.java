@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Abstract base class for Data Transfer Objects (DTOs).
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

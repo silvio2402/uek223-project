@@ -28,6 +28,9 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller for MyListEntry endpoints.
+ */
 @Validated
 @RestController
 @RequestMapping("/mylistentry")
@@ -44,6 +47,13 @@ public class MyListEntryController {
     this.userService = userService;
   }
 
+  /**
+   * Retrieves all MyListEntry objects.
+   *
+   * @param spec     the specification
+   * @param pageable the pageable
+   * @return the list of MyListEntryDTO objects
+   */
   @GetMapping({ "", "/" })
   @PreAuthorize("hasAuthority('MYLISTENTRY_READ_ALL')")
   public ResponseEntity<List<MyListEntryDTO>> retrieveAll(@Filter Specification<MyListEntry> spec, Pageable pageable) {
@@ -51,6 +61,12 @@ public class MyListEntryController {
     return ResponseEntity.ok(myListEntryMapper.toDtoList(mylistentries));
   }
 
+  /**
+   * Retrieves a MyListEntry by its ID.
+   *
+   * @param id the ID of the MyListEntry
+   * @return the MyListEntryDTO object
+   */
   @GetMapping("/{id}")
   @PreAuthorize("hasAuthority('MYLISTENTRY_READ_ALL')")
   public ResponseEntity<MyListEntryDTO> retrieveById(@PathVariable UUID id) {
@@ -58,6 +74,12 @@ public class MyListEntryController {
     return ResponseEntity.ok(myListEntryMapper.toDto(mylistentry));
   }
 
+  /**
+   * Creates a new MyListEntry.
+   *
+   * @param myListEntryDTO the DTO of the MyListEntry to create
+   * @return the created MyListEntryDTO object
+   */
   @PostMapping({ "", "/" })
   @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || hasAuthority('MYLISTENTRY_MODIFY_OWN')")
   public ResponseEntity<MyListEntryDTO> create(@Valid @RequestBody PostMyListEntryDTO myListEntryDTO) {
@@ -69,6 +91,13 @@ public class MyListEntryController {
     return ResponseEntity.created(location).body(myListEntryMapper.toDto(createdMyListEntry));
   }
 
+  /**
+   * Updates an existing MyListEntry.
+   *
+   * @param id             the ID of the MyListEntry to update
+   * @param myListEntryDTO the DTO of the MyListEntry to update
+   * @return the updated MyListEntryDTO object
+   */
   @PutMapping("/{id}")
   @PreAuthorize("hasAuthority('MYLISTENTRY_MODIFY_ALL') || (hasAuthority('MYLISTENTRY_MODIFY_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(#id))")
   public ResponseEntity<MyListEntryDTO> update(@PathVariable UUID id,
@@ -80,6 +109,12 @@ public class MyListEntryController {
     return ResponseEntity.ok(myListEntryMapper.toDto(updatedMyListEntry));
   }
 
+  /**
+   * Deletes a MyListEntry.
+   *
+   * @param id the ID of the MyListEntry to delete
+   * @return the response entity
+   */
   @DeleteMapping("/{id}")
   @PreAuthorize("hasAuthority('MYLISTENTRY_DELETE_ALL') || (hasAuthority('MYLISTENTRY_DELETE_OWN') && @myListEntryPermissionEvaluator.isOwnEntry(#id))")
   public ResponseEntity<Void> delete(@PathVariable UUID id) {
