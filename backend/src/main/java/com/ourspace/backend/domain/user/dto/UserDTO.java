@@ -7,6 +7,7 @@ import com.ourspace.backend.domain.role.dto.RoleDTO;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class UserDTO extends AbstractDTO {
 
+  @NotBlank
   private String firstName;
 
+  @NotBlank
   private String lastName;
 
   @Email
