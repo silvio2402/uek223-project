@@ -30,7 +30,7 @@ function buildSortQueryString({ sortBy, sortDirection }: SortQuery): string {
     return ""
   }
 
-  const sortDirectionQuery = sortDirection ? `_${sortDirection}` : ""
+  const sortDirectionQuery = sortDirection ?? ""
   return `${sortBy.join(",")},${sortDirectionQuery}`
 }
 
