@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -58,6 +59,14 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
   public User registerUser(User user) {
     user.setPassword(passwordEncoder.encode("1234"));
     user.setRoles(getUserRoleSet());
+    return save(user);
+  }
+
+  @Override
+  public User updateById(UUID id, User user) {
+    user.setId(id);
+    user.setPassword(repository.findById(id).get().getPassword());
+    user.setRoles(repository.findById(id).get().getRoles());
     return save(user);
   }
 
