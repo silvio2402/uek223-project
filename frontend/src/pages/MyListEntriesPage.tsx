@@ -19,6 +19,9 @@ import {
 } from "@mui/material"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import authorities from "../config/authorities"
+import { useActiveUser } from "../contexts/activeUser"
+import { getUserAuthorities } from "../services/authorityService"
 import { useMyListEntriesInfiniteQuery } from "../services/hooks/myListEntryHook"
 import { deleteMyListEntry } from "../services/myListEntryService"
 import { MyListEntry } from "../types/models/MyListEntry.model"
@@ -35,6 +38,11 @@ function MyListEntriesPage() {
   const navigate = useNavigate()
 
   const tableContainerRef = useRef<HTMLDivElement>(null)
+
+  const activeUser = useActiveUser()
+  const userAuthorities = activeUser
+    ? getUserAuthorities(activeUser)
+    : new Set()
 
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
   const [sortBy, setSortBy] = useState<keyof MyListEntry>("title")
@@ -88,6 +96,16 @@ function MyListEntriesPage() {
     await deleteMyListEntry(id)
   }
 
+  const canModifyEntry = (entry: MyListEntry) =>
+    userAuthorities.has(authorities.MYLISTENTRY_MODIFY_ALL) ||
+    (entry.user_id === activeUser?.id &&
+      userAuthorities.has(authorities.MYLISTENTRY_MODIFY_OWN))
+
+  const canDeleteEntry = (entry: MyListEntry) =>
+    userAuthorities.has(authorities.MYLISTENTRY_DELETE_ALL) ||
+    (entry.user_id === activeUser?.id &&
+      userAuthorities.has(authorities.MYLISTENTRY_DELETE_OWN))
+
   return (
     <TableContainer
       component={Paper}
@@ -137,20 +155,24 @@ function MyListEntriesPage() {
                 )
               )}
               <TableCell>
-                <IconButton
-                  color="primary"
-                  onClick={() =>
-                    navigate(`/mylistentries/edit/${myListEntry.id}`)
-                  }
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  color="error"
-                  onClick={() => handleDeleteEntry(myListEntry.id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
+                {canModifyEntry(myListEntry) && (
+                  <IconButton
+                    color="primary"
+                    onClick={() =>
+                      navigate(`/mylistentries/edit/${myListEntry.id}`)
+                    }
+                  >
+                    <EditIcon />
+                  </IconButton>
+                )}
+                {canDeleteEntry(myListEntry) && (
+                  <IconButton
+                    color="error"
+                    onClick={() => handleDeleteEntry(myListEntry.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                )}
               </TableCell>
             </TableRow>
           ))}
