@@ -19,18 +19,18 @@ export async function getMyListEntry(id: string) {
 
 export async function createMyListEntry(data: MyListEntryCreate) {
   const response = await api.post<MyListEntry>(`/mylistentry`, data)
-  await queryClient.invalidateQueries({ queryKey: ["mylistentries"] })
+  queryClient.invalidateQueries({ queryKey: ["mylistentries"] })
   return response.data
 }
 
 export async function updateMyListEntry(data: MyListEntry) {
   const { id } = data
   const response = await api.put<MyListEntry>(`/mylistentry/${id}`, data)
-  await queryClient.invalidateQueries({ queryKey: ["mylistentries"] })
+  queryClient.invalidateQueries({ queryKey: ["mylistentries"] })
   return response.data
 }
 
 export async function deleteMyListEntry(id: string) {
   await api.delete(`/mylistentry/${id}`)
-  await queryClient.invalidateQueries({ queryKey: ["mylistentries"] })
+  queryClient.invalidateQueries({ queryKey: ["mylistentries"] })
 }

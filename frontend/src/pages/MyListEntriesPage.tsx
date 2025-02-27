@@ -104,7 +104,7 @@ function MyListEntriesPage() {
         <TableHead>
           <TableRow>
             {columns.map((column) => (
-              <TableCell>
+              <TableCell key={column.key}>
                 <TableSortLabel
                   active={sortBy === column.key}
                   direction={sortBy === column.key ? sortDirection : "asc"}
@@ -122,7 +122,7 @@ function MyListEntriesPage() {
             <TableRow key={myListEntry.id}>
               {columns.map((column) =>
                 column.key === "id" ? (
-                  <TableCell component="th" scope="row">
+                  <TableCell component="th" scope="row" key={column.key}>
                     <Tooltip
                       title={`MyListEntry ID: ${myListEntry.id}`}
                       placement="right"
@@ -131,7 +131,9 @@ function MyListEntriesPage() {
                     </Tooltip>
                   </TableCell>
                 ) : (
-                  <TableCell>{myListEntry[column.key]}</TableCell>
+                  <TableCell key={column.key}>
+                    {myListEntry[column.key]}
+                  </TableCell>
                 )
               )}
               <TableCell>

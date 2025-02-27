@@ -17,7 +17,7 @@ import { MyListEntryCreate } from "../types/models/MyListEntryCreate.model"
 const myListEntrySchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
   text: z.string().min(2, "Text must be at least 2 characters"),
-  importance: z.number().min(1, "Importance must be at least 1"),
+  importance: z.number().min(0, "Importance must be at least 0"),
 })
 
 type MyListEntryFormValues = z.infer<typeof myListEntrySchema>
