@@ -3,6 +3,8 @@ import Layout from "../components/Layout"
 import authorities from "../config/authorities"
 import HomePage from "../pages/HomePage"
 import LoginPage from "../pages/LoginPage"
+import MyListEntriesPage from "../pages/MyListEntriesPage"
+import MyListEntryCreatePage from "../pages/MyListEntryCreatePage"
 import UserCreatePage from "../pages/UserCreatePage"
 import UserEditPage from "../pages/UserEditPage"
 import UsersPage from "../pages/UsersPage"
@@ -60,6 +62,15 @@ function Router() {
             }
           />
 
+          <Route
+            path="create"
+            element={
+              <ProtectedRoute
+                anyAuthorityOf={[authorities.MYLISTENTRY_MODIFY_ALL]}
+                element={<MyListEntryCreatePage />}
+              />
+            }
+          />
         </Route>
 
         <Route path="*" element={<div>Not Found</div>} />
