@@ -26,14 +26,13 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
   @Autowired
   private RoleRepository roleRepository;
 
-  @Autowired
   public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
     super(repository);
     this.passwordEncoder = passwordEncoder;
   }
 
   private Set<Role> getUserRoleSet() {
-    Set<Role> roles = new HashSet();
+    Set<Role> roles = new HashSet<Role>();
     Role role = roleRepository.findByName("USER");
     roles.add(role);
     return roles;

@@ -1,6 +1,5 @@
 package com.ourspace.backend.domain.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +26,6 @@ public class AuthController {
   private final AuthService authService;
   private final AuthenticationManager authenticationManager;
 
-  @Autowired
   public AuthController(AuthService authService, AuthenticationManager authenticationManager) {
     this.authService = authService;
     this.authenticationManager = authenticationManager;

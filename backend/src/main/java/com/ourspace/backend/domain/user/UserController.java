@@ -3,7 +3,6 @@ package com.ourspace.backend.domain.user;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +30,6 @@ public class UserController {
   private final UserService userService;
   private final UserMapper userMapper;
 
-  @Autowired
   public UserController(UserService userService, UserMapper userMapper) {
     this.userService = userService;
     this.userMapper = userMapper;
