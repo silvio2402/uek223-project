@@ -49,6 +49,19 @@ function Router() {
           }
         />
 
+        <Route path="/mylistentries">
+          <Route
+            index
+            element={
+              <ProtectedRoute
+                anyAuthorityOf={[authorities.MYLISTENTRY_READ_ALL]}
+                element={<MyListEntriesPage />}
+              />
+            }
+          />
+
+        </Route>
+
         <Route path="*" element={<div>Not Found</div>} />
       </Route>
     </Routes>
