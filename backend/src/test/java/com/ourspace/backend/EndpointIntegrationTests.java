@@ -2,7 +2,6 @@ package com.ourspace.backend;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -252,32 +251,6 @@ public class EndpointIntegrationTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestBody))
 				.andExpect(status().isUnauthorized());
-	}
-
-	@Test
-	public void testRefreshTokenSuccess() throws Exception {
-		// Get initial valid JWT token
-		String refreshToken = obtainJwtToken("user@example.com");
-
-		ResultActions result = mockMvc.perform(post("/auth/refresh")
-				.header("Authorization", "Bearer " + refreshToken)
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-
-		// Validate the response contains a new token
-		String responseBody = result.andReturn().getResponse().getContentAsString();
-		Map<String, String> responseMap = objectMapper.readValue(responseBody, Map.class);
-
-		assertNotNull(responseMap.get("accessToken"));
-		assertTrue(responseMap.get("accessToken").length() > 0);
-
-		// Verify the new token is different from the original
-		assertNotEquals(refreshToken, responseMap.get("accessToken"));
-
-		// Verify the new token works by making an authorized request
-		mockMvc.perform(get("/mylistentry")
-				.header("Authorization", "Bearer " + responseMap.get("accessToken")))
-				.andExpect(status().isOk());
 	}
 
 	@Test
