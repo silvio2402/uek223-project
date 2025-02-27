@@ -3,7 +3,8 @@ import Layout from "../components/Layout"
 import authorities from "../config/authorities"
 import HomePage from "../pages/HomePage"
 import LoginPage from "../pages/LoginPage"
-import UserPage from "../pages/UserPage"
+import UserCreatePage from "../pages/UserCreatePage"
+import UserEditPage from "../pages/UserEditPage"
 import UsersPage from "../pages/UsersPage"
 import ProtectedRoute from "./ProtectedRoute"
 
@@ -26,23 +27,24 @@ function Router() {
         />
 
         <Route
-          path="/useredit"
+          path="/users/edit/:userId"
           element={
             <ProtectedRoute
               anyAuthorityOf={[
-                authorities.USER_DEACTIVATE,
-                authorities.USER_CREATE,
+                authorities.USER_MODIFY_ALL,
+                authorities.USER_MODIFY_OWN,
               ]}
-              element={<UserPage />}
+              element={<UserEditPage />}
             />
           }
         />
+
         <Route
-          path="/useredit/:userId"
+          path="/users/create"
           element={
             <ProtectedRoute
-              anyAuthorityOf={[authorities.USER_READ]}
-              element={<UserPage />}
+              anyAuthorityOf={[authorities.USER_MODIFY_ALL]}
+              element={<UserCreatePage />}
             />
           }
         />
